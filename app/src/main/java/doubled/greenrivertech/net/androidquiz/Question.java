@@ -5,58 +5,32 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 /**
- * Created by sevenson2 on 4/14/2016.
+ *
+ *
  */
 public class Question {
-    private String question;
-    //private Scanner questions;
+    private String[] questions;
+    private boolean answer;
 
-    public Question(int selection)
+    public Question()
     {
-        /*try
-        {
-            if(selection == 1)
-            {
-                //questions = new Scanner(new File("easy.txt"));
-            }
-            else if (selection == 2)
-            {
-                //questions = new Scanner(new File("medium.txt"));
-            }
-            else
-            {
-                //questions = new Scanner(new File("hard.txt"));
-            }
-        }
-        catch(FileNotFoundException ex)
-        {
-            System.out.println("The file does not exist" + ex.getMessage());
-        }*/
-        question = "2+2=5, correct?";
+        questions = new String[5];
+        questions[0] = "Suzy says 2 + 2 = 5 is correct.:false";
+        questions[1] = "Bill says that the United States is in North America.:true";
+        questions[2] = "Kevin says two quarters is worth more than four dimes:true";
+        questions[3] = "Alex says that the sky is orange when the sun is down:false";
+        questions[4] = "Helen says a rabbit is a type of rodent:false";
     }
 
-    public String getquestion(int number)
+    public String getQuestion(int selection)
     {
-        /*int count = 1;
-        while (questions.hasNextLine() && count < number)
-        {
-            questions.nextLine();
-            count++;
-        }
-        return questions.nextLine();*/
-        return question;
+        String[] statement = questions[selection].split(":");
+        answer = Boolean.parseBoolean(statement[1]);
+        return statement[0];
     }
 
-    public boolean check(String answer, int number)
+    public boolean check(boolean selected, int selection)
     {
-        /*int count = 1;
-        while (questions.hasNextLine() && count < number)
-        {
-            questions.nextLine();
-            count++;
-        }
-        String[] tokens = questions.nextLine().split(":");
-        return tokens[1].equals(answer);*/
-        return answer.equals("false");
+        return answer == selected;
     }
 }

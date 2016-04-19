@@ -2,4 +2,7 @@
     <string name="app_name">Android Quiz</string>
     <string name="action_settings">Settings</string>
     <string name="title">Android Quiz Game</string>
+    <string name="truth">True</string>
+    <string name="falsy">False</string>
+    <string name="next">Next ></string>
 </resources>

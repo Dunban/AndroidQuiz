@@ -12,11 +12,19 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
+import java.util.Random;
+
 public class QuestionsWindow extends AppCompatActivity {
     private Button istrue;
-    private Button isfalse;
     private Question modal;
     private TextView display;
+    private TextView corrects;
+    private int selection;
+    private int score;
+    public static final boolean[] answered = new boolean[5];
+    public static final Random rand = new Random();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,11 +34,13 @@ public class QuestionsWindow extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         istrue = (Button) findViewById(R.id.istrue);
-        isfalse = (Button) findViewById(R.id.isfalse);
-        modal = new Question(1);
+        modal = new Question();
+        score = 0;
         display = (TextView) findViewById(R.id.question);
-        String question = modal.getquestion(3);
-        display.setText(question);
+        corrects = (TextView) findViewById(R.id.score);
+        selection = rand.nextInt(5);
+        display.setText(modal.getQuestion(selection));
+        corrects.setText(score + "");
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -42,30 +52,70 @@ public class QuestionsWindow extends AppCompatActivity {
         });
     }
 
+    /**
+     * public void answered()
+     * @param v - The view clicked on as the answer to the question
+     *
+     * This method checks if the answer is correct to the given question. The answer is gathered
+     * by checking the id of the View given.
+     */
     public void answered(View v)
     {
+        //If the selected button is the left one (True)
         if (v.getId() == istrue.getId())
         {
-            if(modal.check("true", 3))
+            //If answer is correct
+            if(modal.check(true, selection))
             {
                 Toast.makeText(QuestionsWindow.this, "Correct!", Toast.LENGTH_SHORT).show();
+                score++;
             }
-            else
+            else //If answer is incorrect
             {
                 Toast.makeText(QuestionsWindow.this, "Incorrect!", Toast.LENGTH_SHORT).show();
-            }
+            } //End if statement
         }
-        else
+        else //If the selected button is the right one (False)
         {
-            if(modal.check("false", 3))
+            //If answer is correct
+            if(modal.check(false, selection))
             {
                 Toast.makeText(QuestionsWindow.this, "Correct!", Toast.LENGTH_SHORT).show();
+                score++;
             }
-            else
+            else //If answer is incorrect
             {
                 Toast.makeText(QuestionsWindow.this, "Incorrect!", Toast.LENGTH_SHORT).show();
-            }
+            } //End if statement
         }
+
+        //move to the next question, and set answered to true
+        corrects.setText(score + "");
+        answered[selection] = true;
+        skip(v);
+    }
+
+    /**
+     * public void skip()
+     * @param v - the view clicked on to skip the question
+     *
+     * This method moves to the next available question in the set.
+     */
+    public void skip(View v)
+    {
+
+        //If the selection from the question set is at end
+        if (selection == 4)
+        {
+            selection = 0;
+        }
+        else //If the selection from the question set is not at the end
+        {
+            selection++;
+        }//End if statement
+
+        display.setText(modal.getQuestion(selection));
+
     }
 
     @Override

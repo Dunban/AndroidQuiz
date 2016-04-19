@@ -1,3 +1,0 @@
-2+2 equals 4:true
-the creator of this app is the best:true
-three quarters is worth more than one dollar:false
