@@ -1,5 +1,6 @@
 package doubled.greenrivertech.net.androidquiz;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -23,7 +24,8 @@ public class QuestionsWindow extends AppCompatActivity {
     private TextView corrects;
     private int selection;
     private int score;
-    public static final boolean[] answered = new boolean[5];
+    private boolean[] answered;
+    private boolean[] selected;
     public static final Random rand = new Random();
 
     @Override
@@ -41,6 +43,8 @@ public class QuestionsWindow extends AppCompatActivity {
         selection = rand.nextInt(5);
         display.setText(modal.getQuestion(selection));
         corrects.setText(score + "");
+        answered = new boolean[]{false, false, false, false, false};
+        selected = new boolean[]{false, false, false, false, false};
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -69,6 +73,7 @@ public class QuestionsWindow extends AppCompatActivity {
             {
                 Toast.makeText(QuestionsWindow.this, "Correct!", Toast.LENGTH_SHORT).show();
                 score++;
+                selected[selection] = true;
             }
             else //If answer is incorrect
             {
@@ -82,6 +87,7 @@ public class QuestionsWindow extends AppCompatActivity {
             {
                 Toast.makeText(QuestionsWindow.this, "Correct!", Toast.LENGTH_SHORT).show();
                 score++;
+                selected[selection] = true;
             }
             else //If answer is incorrect
             {
@@ -103,19 +109,53 @@ public class QuestionsWindow extends AppCompatActivity {
      */
     public void skip(View v)
     {
-
-        //If the selection from the question set is at end
-        if (selection == 4)
+        //For each question to answer
+        int progress = 0;
+        for(boolean answer : answered)
         {
-            selection = 0;
+            //If it has been answered
+            if (answer)
+            {
+                progress++;
+            }//End if statement
+        }//End for loop
+
+        //If all questions haven't been answered
+        if(progress != 5)
+        {
+            //If the selection from the question set is at end
+            if (selection == 4)
+            {
+                selection = 0;
+            }
+            else //If the selection from the question set is not at the end
+            {
+                selection++;
+            }//End if statement
+
+            //While the question has been answered
+            while (answered[selection])
+            {
+                //If the selection from the question set is at end
+                if (selection == 4)
+                {
+                    selection = 0;
+                }
+                else //If the selection from the question set is not at the end
+                {
+                    selection++;
+                }//End if statement
+            }//End while loop
+
+            display.setText(modal.getQuestion(selection));
         }
-        else //If the selection from the question set is not at the end
+        else //If all questions have been answered
         {
-            selection++;
-        }//End if statement
-
-        display.setText(modal.getQuestion(selection));
-
+            Intent results = new Intent(this, ResultScreen.class);
+            results.putExtra("Score", score);
+            results.putExtra("Answers", selected);
+            startActivity(results);
+        }
     }
 
     @Override

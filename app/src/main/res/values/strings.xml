@@ -5,4 +5,5 @@
     <string name="truth">True</string>
     <string name="falsy">False</string>
     <string name="next">Next ></string>
+    <string name="title_activity_result_screen">ResultScreen</string>
 </resources>
