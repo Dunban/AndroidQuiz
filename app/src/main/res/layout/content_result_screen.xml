@@ -32,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=""
-            android:textSize="20sp"
+            android:textSize="16sp"
             android:id="@+id/answers"
             android:gravity="center"
             android:layout_gravity="center_horizontal" />

@@ -41,18 +41,19 @@ public class ResultScreen extends AppCompatActivity {
         int score = results.getIntExtra("Score", -1);
         boolean[] answers = results.getBooleanArrayExtra("Answers");
 
-        correct.setText(score + "");
+        correct.setText("Score: " + score);
         String questions = "";
+
         for(int i = 0; i < answers.length; i++)
         {
             questions += modal.getQuestion(i);
-            if (modal.check(answers[i], i))
+            if (answers[i])
             {
-                questions +=": Correct! \n";
+                questions += ": Correct! \n";
             }
             else
             {
-                questions +=": Incorrect! \n";
+                questions += ": Incorrect! \n";
             }
         }
 
